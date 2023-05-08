@@ -366,14 +366,17 @@ function getWeatherByCity(city, strHtml){
                 weathernow = data.weather;
                 wind = data.winddirection + "风";
                 windLv = data.windpower + "级";
-                weather.innerHTML = FormatWeather(strHtml);
+                $.get("https://restapi.amap.com/v3/weather/weatherInfo?key="+gaodekey+"&extensions=all&city=" + city, function(res, status){
+                
+                    let data = res.forecasts[0].casts[0];
+                    high = data.daytemp;
+                    low = data.nighttemp;
+                    weather.innerHTML = FormatWeather(strHtml);
+                })
+                
             });
 
-            $.get("https://restapi.amap.com/v3/weather/weatherInfo?key="+gaodekey+"&extensions=all&city=" + city, function(res, status){
-                let data = res.forecasts[0].casts[0];
-                high = data.daytemp;
-                low = data.nighttemp;
-            })
+            
         }
     });
     
