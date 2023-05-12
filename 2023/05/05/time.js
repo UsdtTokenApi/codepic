@@ -346,41 +346,17 @@ function testGetWeather(strHtml){
 
 function getWeatherByCity(city, strHtml){
     
-    gaodekey = "2e4a8d000e13224d71232dee3db04bdd"
-    adcode = 110000
-    $.get("https://restapi.amap.com/v3/geocode/geo?address=" + city + "&key=" + gaodekey,function(res, status){
-        // alert(JSON.stringify(res));
-        if(res.status == 1 && res.geocodes && res.geocodes[0]){
-            // alert(res.geocodes[0]);
-            adcode = res.geocodes[0]["adcode"]
-
-            $.get("https://restapi.amap.com/v3/weather/weatherInfo?key="+gaodekey+"&extensions=base&city=" + city, function(res, status){
-       
-                // console.log(JSON.stringify(res));
-                let data = res.lives[0];
-        
-                cityname = data.city;
-                feels = data.temperature;
-                // high = data.temperature;
-                // low = data.temperature;
-                weathernow = data.weather;
-                wind = data.winddirection + "风";
-                windLv = data.windpower + "级";
-                $.get("https://restapi.amap.com/v3/weather/weatherInfo?key="+gaodekey+"&extensions=all&city=" + city, function(res, status){
-                
-                    let data = res.forecasts[0].casts[0];
-                    high = data.daytemp;
-                    low = data.nighttemp;
-                    weather.innerHTML = FormatWeather(strHtml);
-                })
-                
-            });
-
-            
-        }
+    $.get("http://101.43.7.142:12306/weather.php?cityname=" + city,function(data, status){
+        cityname = data.cityname;
+        feels = data.feels;
+        weathernow = data.weathernow;
+        wind = data.wind;
+        windLv = data.windLv;
+        high = data.high;
+        low = data.low;
+        //alert("数据: " + cityname + "  " + feels +"℃  "+ low +  " ~ " + high + "  " + weathernow + "  " + wind + "  " + windLv);
+        weather.innerHTML = FormatWeather(strHtml);
     });
-    
-    
 }
 
 // function getWeatherForCity(city,strHtml)
